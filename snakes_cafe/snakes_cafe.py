@@ -35,14 +35,6 @@
 # ***********************************
 # >
 
-# header = '''**************************************
-# **    Welcome to the Snakes Cafe!   **
-# **    Please see our menu below.    **
-# **
-# ** To quit at any time, type "quit" **
-# **************************************
-# '''
-
 greeting = '''Welcome to the Snakes Cafe!
 Please see our menu below. 
 
@@ -96,6 +88,42 @@ def show_menu():
       print(item)
     print('')
 
+def report_order(item, user_order):
+  order_single = '{} order of {} have been added to your meal'
+  order_mult = '{} orders of {} have been added to your meal'
+
+  if user_order[item] == 1:
+    print(order_single.format(user_order[item], item))
+  else:
+    print(order_mult.format(user_order[item], item))
+
+def take_order(order, user_order):
+  for category in menu:
+    for item in menu[category]:
+      if item == order:
+        try:
+          user_order[item] += 1
+        except KeyError:
+          user_order[item] = 1
+
+        report_order(item, user_order)
+  return user_order
+
+def user_prompt():
+  command = input('> ')
+
+  if command == 'quit':
+    print('\nGoodbye!')
+    quit()
+  else:
+    global user_order
+    user_order = take_order(command, user_order)
+    print(user_order)
+
+
 border_print(greeting)
 show_menu()
 border_print(ask_order)
+
+while True:
+  user_prompt()
