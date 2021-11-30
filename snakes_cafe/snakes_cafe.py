@@ -1,48 +1,9 @@
-# **************************************
-# **    Welcome to the Snakes Cafe!   **
-# **    Please see our menu below.    **
-# **
-# ** To quit at any time, type "quit" **
-# **************************************
-
-# Appetizers
-# ----------
-# Wings
-# Cookies
-# Spring Rolls
-
-# Entrees
-# -------
-# Salmon
-# Steak
-# Meat Tornado
-# A Literal Garden
-
-# Desserts
-# --------
-# Ice Cream
-# Cake
-# Pie
-
-# Drinks
-# ------
-# Coffee
-# Tea
-# Unicorn Tears
-
-# ***********************************
-# ** What would you like to order? **
-# ***********************************
-# >
-
 greeting = '''Welcome to the Snakes Cafe!
 Please see our menu below. 
 
 To quit at any time, type "quit"'''
 
 ask_order = 'What would you like to order?'
-
-order_confirm = '{} order of {} have been added to your meal'
 
 menu={
   'Appetizers': ['Wings', 'Cookies', 'Spring Rolls'],
@@ -52,8 +13,6 @@ menu={
 }
 
 user_order={}
-
-
 
 def border_print(message, top_bott_bord=True):
   msg_list = message.splitlines()
@@ -93,9 +52,12 @@ def report_order(item, user_order):
   order_mult = '{} orders of {} have been added to your meal'
 
   if user_order[item] == 1:
-    print(order_single.format(user_order[item], item))
+    message = order_single.format(user_order[item], item)
   else:
-    print(order_mult.format(user_order[item], item))
+    message = order_mult.format(user_order[item], item)
+
+  print('')
+  border_print(message, False)
 
 def take_order(order, user_order):
   for category in menu:
@@ -105,8 +67,10 @@ def take_order(order, user_order):
           user_order[item] += 1
         except KeyError:
           user_order[item] = 1
-
         report_order(item, user_order)
+        return user_order
+  
+  print("\nThat isn't on our menu! :(\n")
   return user_order
 
 def user_prompt():
@@ -115,11 +79,16 @@ def user_prompt():
   if command == 'quit':
     print('\nGoodbye!')
     quit()
+  elif command == 'help':
+    print('\nEnter a Menu item to order')
+    print('or type "menu" to see the menu again!\n')
+    # print('or "order" to view current order!\n')
+  elif command == 'menu':
+    print('')
+    show_menu()
   else:
     global user_order
     user_order = take_order(command, user_order)
-    print(user_order)
-
 
 border_print(greeting)
 show_menu()
